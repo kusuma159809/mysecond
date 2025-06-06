@@ -21,11 +21,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization=copilotorg -Dsonar.projectKey=copilotproj
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization=onam -Dsonar.projectKey=onam_fourth
 
   snyk-scan:
     needs: sonar-scan
-    if: always()
+    if: always() # Always run, regardless of sonar-scan result
     name: Snyk Security Scan
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
 
   zap-scan:
     needs: snyk-scan
-    if: always()
+    if: always() # Always run, regardless of snyk-scan result
     name: OWASP ZAP Scan
     runs-on: ubuntu-latest
     steps:
